@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khẩu Ngữ Cao Cấp - Bài 10: 众说纷纭话名牌</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .chinese-text {
+            font-family: 'KaiTi', 'SimSun', serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        .tab-active {
+            border-bottom-width: 2px;
+            border-color: #2563eb;
+            color: #2563eb;
+            background-color: #eff6ff;
+        }
+        .tab-inactive {
+            color: #64748b;
+        }
+        .tab-inactive:hover {
+            color: #334155;
+            background-color: #f1f5f9;
+        }
+        /* Class lật thẻ bằng JS */
+        .card-inner {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .is-flipped {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="text-gray-800 h-screen flex flex-col">
+
+    <header class="bg-white shadow-sm border-b border-gray-200 z-10 flex-shrink-0">
+        <!-- Đã sửa flex-col trên mobile, flex-row trên desktop -->
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3 w-full md:w-auto">
+                <div class="bg-blue-600 text-white p-2 rounded-lg flex-shrink-0">
+                    <i class="fas fa-microphone-lines text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight">高级口语</h1>
+                    <p class="text-xs text-gray-500">第十课：众说纷纭话名牌</p>
+                </div>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+                <div class="flex items-center bg-gray-50 px-3 py-2 rounded-full border border-gray-200 w-full sm:w-auto">
+                    <i class="fas fa-user text-gray-400 mr-2 text-sm"></i>
+                    <input type="text" id="student-name" placeholder="姓名..." class="bg-transparent border-none focus:outline-none text-sm w-full sm:w-40 text-gray-700">
+                </div>
+                <button id="export-btn" class="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-full text-sm font-medium transition flex items-center justify-center gap-2 shadow-sm">
+                    <i class="fas fa-file-export"></i> 提交作业
+                </button>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs (Cho phép cuộn ngang mượt mà trên mobile) -->
+        <div class="max-w-7xl mx-auto px-4 flex overflow-x-auto pb-1" style="-webkit-overflow-scrolling: touch;">
+            <button onclick="switchTab('tab-vocab')" id="btn-tab-vocab" class="tab-btn tab-active px-4 md:px-6 py-3 text-sm font-medium whitespace-nowrap transition flex-shrink-0">
+                <i class="fas fa-book-open mr-2"></i> 1. 词语例释
+            </button>
+            <button onclick="switchTab('tab-text')" id="btn-tab-text" class="tab-btn tab-inactive px-4 md:px-6 py-3 text-sm font-medium whitespace-nowrap transition flex-shrink-0">
+                <i class="fas fa-headphones mr-2"></i> 2. 课文与跟读
+            </button>
+            <button onclick="switchTab('tab-practice')" id="btn-tab-practice" class="tab-btn tab-inactive px-4 md:px-6 py-3 text-sm font-medium whitespace-nowrap transition flex-shrink-0">
+                <i class="fas fa-dumbbell mr-2"></i> 3. 练习
+            </button>
+            <button onclick="switchTab('tab-final')" id="btn-tab-final" class="tab-btn tab-inactive px-4 md:px-6 py-3 text-sm font-medium whitespace-nowrap transition flex-shrink-0">
+                <i class="fas fa-flag-checkered mr-2"></i> 4. 思考与调查
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-grow overflow-y-auto p-4 md:p-8">
+        <div class="max-w-5xl mx-auto">
+            
+            <!-- TAB 1: TỪ VỰNG -->
+            <div id="tab-vocab" class="tab-content block animate-fade-in">
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                    <h2 class="text-xl font-bold mb-6 text-gray-800 border-b pb-3">【词语例释】</h2>
+                    <p class="text-sm text-gray-600 mb-6">点击卡片查看拼音和越南语翻译。</p>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Card 1 -->
+                        <div class="h-80 [perspective:1000px] cursor-pointer" onclick="this.querySelector('.card-inner').classList.toggle('is-flipped')">
+                            <div class="card-inner relative h-full w-full rounded-xl shadow-sm">
+                                <div class="absolute inset-0 bg-blue-50 border border-blue-100 rounded-xl p-5 [backface-visibility:hidden] flex flex-col justify-center items-start text-left overflow-y-auto">
+                                    <h3 class="text-4xl font-bold text-blue-900 mb-4 self-center" style="font-family: 'SimSun', serif;">时尚</h3>
+                                    <p class="text-xl text-gray-800 mb-3 leading-relaxed" style="font-family: 'SimSun', serif;"><strong>解释：</strong>当时的流行趋势。</p>
+                                    <p class="text-xl text-gray-700 italic leading-relaxed" style="font-family: 'SimSun', serif;"><strong>例句：</strong>这些服装是最符合时尚的新款式。</p>
+                                </div>
+                                <div class="absolute inset-0 bg-indigo-50 border border-indigo-200 rounded-xl p-5 [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col justify-center items-center text-center" style="font-family: 'Times New Roman', Times, serif;">
+                                    <span class="text-3xl text-indigo-700 font-bold mb-4 tracking-wide">shíshàng</span>
+                                    <p class="text-xl text-gray-800">Thời trang, thịnh hành, mốt.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card 2 -->
+                        <div class="h-80 [perspective:1000px] cursor-pointer" onclick="this.querySelector('.card-inner').classList.toggle('is-flipped')">
+                            <div class="card-inner relative h-full w-full rounded-xl shadow-sm">
+                                <div class="absolute inset-0 bg-blue-50 border border-blue-100 rounded-xl p-5 [backface-visibility:hidden] flex flex-col justify-center items-start text-left overflow-y-auto">
+                                    <h3 class="text-4xl font-bold text-blue-900 mb-4 self-center" style="font-family: 'SimSun', serif;">品位</h3>
+                                    <p class="text-xl text-gray-800 mb-3 leading-relaxed" style="font-family: 'SimSun', serif;"><strong>解释：</strong>人或事物的品质、水平。</p>
+                                    <p class="text-xl text-gray-700 italic leading-relaxed" style="font-family: 'SimSun', serif;"><strong>例句：</strong>这本书从他的审美眼光看是很有品位的。</p>
+                                </div>
+                                <div class="absolute inset-0 bg-indigo-50 border border-indigo-200 rounded-xl p-5 [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col justify-center items-center text-center" style="font-family: 'Times New Roman', Times, serif;">
+                                    <span class="text-3xl text-indigo-700 font-bold mb-4 tracking-wide">pǐnwèi</span>
+                                    <p class="text-xl text-gray-800">Gu thẩm mỹ, phẩm vị, đẳng cấp.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card 3 -->
+                        <div class="h-80 [perspective:1000px] cursor-pointer" onclick="this.querySelector('.card-inner').classList.toggle('is-flipped')">
+                            <div class="card-inner relative h-full w-full rounded-xl shadow-sm">
+                                <div class="absolute inset-0 bg-blue-50 border border-blue-100 rounded-xl p-5 [backface-visibility:hidden] flex flex-col justify-center items-start text-left overflow-y-auto">
+                                    <h3 class="text-4xl font-bold text-blue-900 mb-4 self-center" style="font-family: 'SimSun', serif;">随心所欲</h3>
+                                    <p class="text-xl text-gray-800 mb-3 leading-relaxed" style="font-family: 'SimSun', serif;"><strong>解释：</strong>一切由着自己的心意，想怎么做就怎么做。</p>
+                                    <p class="text-xl text-gray-700 italic leading-relaxed" style="font-family: 'SimSun', serif;"><strong>例句：</strong>你现在刚工作，怎么能随心所欲地买名牌呢？</p>
+                                </div>
+                                <div class="absolute inset-0 bg-indigo-50 border border-indigo-200 rounded-xl p-5 [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col justify-center items-center text-center" style="font-family: 'Times New Roman', Times, serif;">
+                                    <span class="text-3xl text-indigo-700 font-bold mb-4 tracking-wide">suíxīnsuǒyù</span>
+                                    <p class="text-xl text-gray-800">Tùy tâm sở dục, muốn sao làm vậy.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card 4 -->
+                        <div class="h-80 [perspective:1000px] cursor-pointer" onclick="this.querySelector('.card-inner').classList.toggle('is-flipped')">
+                            <div class="card-inner relative h-full w-full rounded-xl shadow-sm">
+                                <div class="absolute inset-0 bg-blue-50 border border-blue-100 rounded-xl p-5 [backface-visibility:hidden] flex flex-col justify-center items-start text-left overflow-y-auto">
+                                    <h3 class="text-4xl font-bold text-blue-900 mb-4 self-center" style="font-family: 'SimSun', serif;">奢侈</h3>
+                                    <p class="text-xl text-gray-800 mb-3 leading-relaxed" style="font-family: 'SimSun', serif;"><strong>解释：</strong>花费大量钱财过分追求享受。</p>
+                                    <p class="text-xl text-gray-700 italic leading-relaxed" style="font-family: 'SimSun', serif;"><strong>例句：</strong>你挣这么点钱怎么还买这种奢侈品呢？</p>
+                                </div>
+                                <div class="absolute inset-0 bg-indigo-50 border border-indigo-200 rounded-xl p-5 [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col justify-center items-center text-center" style="font-family: 'Times New Roman', Times, serif;">
+                                    <span class="text-3xl text-indigo-700 font-bold mb-4 tracking-wide">shēchǐ</span>
+                                    <p class="text-xl text-gray-800">Xa xỉ, lãng phí.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card 5 -->
+                        <div class="h-80 [perspective:1000px] cursor-pointer" onclick="this.querySelector('.card-inner').classList.toggle('is-flipped')">
+                            <div class="card-inner relative h-full w-full rounded-xl shadow-sm">
+                                <div class="absolute inset-0 bg-blue-50 border border-blue-100 rounded-xl p-5 [backface-visibility:hidden] flex flex-col justify-center items-start text-left overflow-y-auto">
+                                    <h3 class="text-4xl font-bold text-blue-900 mb-4 self-center" style="font-family: 'SimSun', serif;">宁缺毋滥</h3>
+                                    <p class="text-xl text-gray-800 mb-3 leading-relaxed" style="font-family: 'SimSun', serif;"><strong>解释：</strong>宁可缺少也不要不顾质量地求多。</p>
+                                    <p class="text-xl text-gray-700 italic leading-relaxed" style="font-family: 'SimSun', serif;"><strong>例句：</strong>我找男朋友的标准是宁缺毋滥。</p>
+                                </div>
+                                <div class="absolute inset-0 bg-indigo-50 border border-indigo-200 rounded-xl p-5 [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col justify-center items-center text-center" style="font-family: 'Times New Roman', Times, serif;">
+                                    <span class="text-3xl text-indigo-700 font-bold mb-4 tracking-wide">nìngquēwúlàn</span>
+                                    <p class="text-xl text-gray-800">Thà thiếu chứ không ẩu.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card 6 -->
+                        <div class="h-80 [perspective:1000px] cursor-pointer" onclick="this.querySelector('.card-inner').classList.toggle('is-flipped')">
+                            <div class="card-inner relative h-full w-full rounded-xl shadow-sm">
+                                <div class="absolute inset-0 bg-blue-50 border border-blue-100 rounded-xl p-5 [backface-visibility:hidden] flex flex-col justify-center items-start text-left overflow-y-auto">
+                                    <h3 class="text-4xl font-bold text-blue-900 mb-4 self-center" style="font-family: 'SimSun', serif;">货真价实</h3>
+                                    <p class="text-xl text-gray-800 mb-3 leading-relaxed" style="font-family: 'SimSun', serif;"><strong>解释：</strong>货物不是假的，价格也实实在在。</p>
+                                    <p class="text-xl text-gray-700 italic leading-relaxed" style="font-family: 'SimSun', serif;"><strong>例句：</strong>每个人都喜欢货真价实的东西。</p>
+                                </div>
+                                <div class="absolute inset-0 bg-indigo-50 border border-indigo-200 rounded-xl p-5 [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col justify-center items-center text-center" style="font-family: 'Times New Roman', Times, serif;">
+                                    <span class="text-3xl text-indigo-700 font-bold mb-4 tracking-wide">huòzhēnjiàshí</span>
+                                    <p class="text-xl text-gray-800">Hàng thật giá thật.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card 7 -->
+                        <div class="h-80 [perspective:1000px] cursor-pointer" onclick="this.querySelector('.card-inner').classList.toggle('is-flipped')">
+                            <div class="card-inner relative h-full w-full rounded-xl shadow-sm">
+                                <div class="absolute inset-0 bg-blue-50 border border-blue-100 rounded-xl p-5 [backface-visibility:hidden] flex flex-col justify-center items-start text-left overflow-y-auto">
+                                    <h3 class="text-4xl font-bold text-blue-900 mb-4 self-center" style="font-family: 'SimSun', serif;">顶尖</h3>
+                                    <p class="text-xl text-gray-800 mb-3 leading-relaxed" style="font-family: 'SimSun', serif;"><strong>解释：</strong>达到最高水平的。</p>
+                                    <p class="text-xl text-gray-700 italic leading-relaxed" style="font-family: 'SimSun', serif;"><strong>例句：</strong>这些运动员都是顶尖高手。</p>
+                                </div>
+                                <div class="absolute inset-0 bg-indigo-50 border border-indigo-200 rounded-xl p-5 [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col justify-center items-center text-center" style="font-family: 'Times New Roman', Times, serif;">
+                                    <span class="text-3xl text-indigo-700 font-bold mb-4 tracking-wide">dǐngjiān</span>
+                                    <p class="text-xl text-gray-800">Đỉnh cao, hàng đầu.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card 8 -->
+                        <div class="h-80 [perspective:1000px] cursor-pointer" onclick="this.querySelector('.card-inner').classList.toggle('is-flipped')">
+                            <div class="card-inner relative h-full w-full rounded-xl shadow-sm">
+                                <div class="absolute inset-0 bg-blue-50 border border-blue-100 rounded-xl p-5 [backface-visibility:hidden] flex flex-col justify-center items-start text-left overflow-y-auto">
+                                    <h3 class="text-4xl font-bold text-blue-900 mb-4 self-center" style="font-family: 'SimSun', serif;">卷刃</h3>
+                                    <p class="text-xl text-gray-800 mb-3 leading-relaxed" style="font-family: 'SimSun', serif;"><strong>解释：</strong>刀切很硬的东西时刀刃卷起来。</p>
+                                    <p class="text-xl text-gray-700 italic leading-relaxed" style="font-family: 'SimSun', serif;"><strong>例句：</strong>你别用这把刀切骨头，容易卷刃。</p>
+                                </div>
+                                <div class="absolute inset-0 bg-indigo-50 border border-indigo-200 rounded-xl p-5 [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col justify-center items-center text-center" style="font-family: 'Times New Roman', Times, serif;">
+                                    <span class="text-3xl text-indigo-700 font-bold mb-4 tracking-wide">juǎnrèn</span>
+                                    <p class="text-xl text-gray-800">Mẻ dao, quằn lưỡi dao.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card 9 -->
+                        <div class="h-80 [perspective:1000px] cursor-pointer" onclick="this.querySelector('.card-inner').classList.toggle('is-flipped')">
+                            <div class="card-inner relative h-full w-full rounded-xl shadow-sm">
+                                <div class="absolute inset-0 bg-blue-50 border border-blue-100 rounded-xl p-5 [backface-visibility:hidden] flex flex-col justify-center items-start text-left overflow-y-auto">
+                                    <h3 class="text-4xl font-bold text-blue-900 mb-4 self-center" style="font-family: 'SimSun', serif;">添堵</h3>
+                                    <p class="text-xl text-gray-800 mb-3 leading-relaxed" style="font-family: 'SimSun', serif;"><strong>解释：</strong>给人增加不愉快，让人心烦、憋气。</p>
+                                    <p class="text-xl text-gray-700 italic leading-relaxed" style="font-family: 'SimSun', serif;"><strong>例句：</strong>说什么你也不听，你别在这里给我添堵了。</p>
+                                </div>
+                                <div class="absolute inset-0 bg-indigo-50 border border-indigo-200 rounded-xl p-5 [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col justify-center items-center text-center" style="font-family: 'Times New Roman', Times, serif;">
+                                    <span class="text-3xl text-indigo-700 font-bold mb-4 tracking-wide">tiāndǔ</span>
+                                    <p class="text-xl text-gray-800">Gây thêm bực mình.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card 10 -->
+                        <div class="h-80 [perspective:1000px] cursor-pointer" onclick="this.querySelector('.card-inner').classList.toggle('is-flipped')">
+                            <div class="card-inner relative h-full w-full rounded-xl shadow-sm">
+                                <div class="absolute inset-0 bg-blue-50 border border-blue-100 rounded-xl p-5 [backface-visibility:hidden] flex flex-col justify-center items-start text-left overflow-y-auto">
+                                    <h3 class="text-4xl font-bold text-blue-900 mb-4 self-center" style="font-family: 'SimSun', serif;">粗粗拉拉</h3>
+                                    <p class="text-xl text-gray-800 mb-3 leading-relaxed" style="font-family: 'SimSun', serif;"><strong>解释：</strong>粗糙，不细致。</p>
+                                    <p class="text-xl text-gray-700 italic leading-relaxed" style="font-family: 'SimSun', serif;"><strong>例句：</strong>我的性格就是这样粗粗拉拉的，你别见怪。</p>
+                                </div>
+                                <div class="absolute inset-0 bg-indigo-50 border border-indigo-200 rounded-xl p-5 [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col justify-center items-center text-center" style="font-family: 'Times New Roman', Times, serif;">
+                                    <span class="text-3xl text-indigo-700 font-bold mb-4 tracking-wide">cūcūlālā</span>
+                                    <p class="text-xl text-gray-800">Thô kệch, qua loa.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card 11 -->
+                        <div class="h-80 [perspective:1000px] cursor-pointer" onclick="this.querySelector('.card-inner').classList.toggle('is-flipped')">
+                            <div class="card-inner relative h-full w-full rounded-xl shadow-sm">
+                                <div class="absolute inset-0 bg-blue-50 border border-blue-100 rounded-xl p-5 [backface-visibility:hidden] flex flex-col justify-center items-start text-left overflow-y-auto">
+                                    <h3 class="text-4xl font-bold text-blue-900 mb-4 self-center" style="font-family: 'SimSun', serif;">跌份</h3>
+                                    <p class="text-xl text-gray-800 mb-3 leading-relaxed" style="font-family: 'SimSun', serif;"><strong>解释：</strong>丢面子。</p>
+                                    <p class="text-xl text-gray-700 italic leading-relaxed" style="font-family: 'SimSun', serif;"><strong>例句：</strong>如果我开一辆几万块钱的车我觉得跌份。</p>
+                                </div>
+                                <div class="absolute inset-0 bg-indigo-50 border border-indigo-200 rounded-xl p-5 [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col justify-center items-center text-center" style="font-family: 'Times New Roman', Times, serif;">
+                                    <span class="text-3xl text-indigo-700 font-bold mb-4 tracking-wide">diēfèn</span>
+                                    <p class="text-xl text-gray-800">Mất mặt, rớt giá.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card 12 -->
+                        <div class="h-80 [perspective:1000px] cursor-pointer" onclick="this.querySelector('.card-inner').classList.toggle('is-flipped')">
+                            <div class="card-inner relative h-full w-full rounded-xl shadow-sm">
+                                <div class="absolute inset-0 bg-blue-50 border border-blue-100 rounded-xl p-5 [backface-visibility:hidden] flex flex-col justify-center items-start text-left overflow-y-auto">
+                                    <h3 class="text-4xl font-bold text-blue-900 mb-4 self-center" style="font-family: 'SimSun', serif;">攀比</h3>
+                                    <p class="text-xl text-gray-800 mb-3 leading-relaxed" style="font-family: 'SimSun', serif;"><strong>解释：</strong>和比自己条件好的、水平高的比较。</p>
+                                    <p class="text-xl text-gray-700 italic leading-relaxed" style="font-family: 'SimSun', serif;"><strong>例句：</strong>在生活上不应该和别人攀比。</p>
+                                </div>
+                                <div class="absolute inset-0 bg-indigo-50 border border-indigo-200 rounded-xl p-5 [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col justify-center items-center text-center" style="font-family: 'Times New Roman', Times, serif;">
+                                    <span class="text-3xl text-indigo-700 font-bold mb-4 tracking-wide">pānbǐ</span>
+                                    <p class="text-xl text-gray-800">Đua đòi, so đo.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card 13 -->
+                        <div class="h-80 [perspective:1000px] cursor-pointer" onclick="this.querySelector('.card-inner').classList.toggle('is-flipped')">
+                            <div class="card-inner relative h-full w-full rounded-xl shadow-sm">
+                                <div class="absolute inset-0 bg-blue-50 border border-blue-100 rounded-xl p-5 [backface-visibility:hidden] flex flex-col justify-center items-start text-left overflow-y-auto">
+                                    <h3 class="text-4xl font-bold text-blue-900 mb-4 self-center" style="font-family: 'SimSun', serif;">打肿脸充胖子</h3>
+                                    <p class="text-xl text-gray-800 mb-3 leading-relaxed" style="font-family: 'SimSun', serif;"><strong>解释：</strong>明明没有达到某条件非要勉强要求这种条件。</p>
+                                    <p class="text-xl text-gray-700 italic leading-relaxed" style="font-family: 'SimSun', serif;"><strong>例句：</strong>你没钱就不要买这么大的房子，干吗非得打肿脸充胖子？</p>
+                                </div>
+                                <div class="absolute inset-0 bg-indigo-50 border border-indigo-200 rounded-xl p-5 [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col justify-center items-center text-center" style="font-family: 'Times New Roman', Times, serif;">
+                                    <span class="text-3xl text-indigo-700 font-bold mb-4 tracking-wide">dǎzhǒngliǎnchōngpàngzi</span>
+                                    <p class="text-xl text-gray-800">Vung tay quá trán, sĩ diện hão.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card 14 -->
+                        <div class="h-80 [perspective:1000px] cursor-pointer" onclick="this.querySelector('.card-inner').classList.toggle('is-flipped')">
+                            <div class="card-inner relative h-full w-full rounded-xl shadow-sm">
+                                <div class="absolute inset-0 bg-blue-50 border border-blue-100 rounded-xl p-5 [backface-visibility:hidden] flex flex-col justify-center items-start text-left overflow-y-auto">
+                                    <h3 class="text-4xl font-bold text-blue-900 mb-4 self-center" style="font-family: 'SimSun', serif;">艰苦朴素</h3>
+                                    <p class="text-xl text-gray-800 mb-3 leading-relaxed" style="font-family: 'SimSun', serif;"><strong>解释：</strong>现常用来表示像在艰苦条件下那样不奢侈，不讲排场。</p>
+                                    <p class="text-xl text-gray-700 italic leading-relaxed" style="font-family: 'SimSun', serif;"><strong>例句：</strong>我们要保持艰苦朴素的精神。</p>
+                                </div>
+                                <div class="absolute inset-0 bg-indigo-50 border border-indigo-200 rounded-xl p-5 [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col justify-center items-center text-center" style="font-family: 'Times New Roman', Times, serif;">
+                                    <span class="text-3xl text-indigo-700 font-bold mb-4 tracking-wide">jiānkǔpǔsù</span>
+                                    <p class="text-xl text-gray-800">Gian khổ giản dị.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card 15 -->
+                        <div class="h-80 [perspective:1000px] cursor-pointer" onclick="this.querySelector('.card-inner').classList.toggle('is-flipped')">
+                            <div class="card-inner relative h-full w-full rounded-xl shadow-sm">
+                                <div class="absolute inset-0 bg-blue-50 border border-blue-100 rounded-xl p-5 [backface-visibility:hidden] flex flex-col justify-center items-start text-left overflow-y-auto">
+                                    <h3 class="text-4xl font-bold text-blue-900 mb-4 self-center" style="font-family: 'SimSun', serif;">反馈</h3>
+                                    <p class="text-xl text-gray-800 mb-3 leading-relaxed" style="font-family: 'SimSun', serif;"><strong>解释：</strong>信息、反映等返回。</p>
+                                    <p class="text-xl text-gray-700 italic leading-relaxed" style="font-family: 'SimSun', serif;"><strong>例句：</strong>根据学生反馈的信息我们决定增加课程量。</p>
+                                </div>
+                                <div class="absolute inset-0 bg-indigo-50 border border-indigo-200 rounded-xl p-5 [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col justify-center items-center text-center" style="font-family: 'Times New Roman', Times, serif;">
+                                    <span class="text-3xl text-indigo-700 font-bold mb-4 tracking-wide">fǎnkuì</span>
+                                    <p class="text-xl text-gray-800">Phản hồi.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: BÀI KHÓA & SHADOWING -->
+            <div id="tab-text" class="tab-content hidden animate-fade-in">
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                    <div class="flex justify-between items-center mb-6 border-b pb-3 flex-wrap gap-4">
+                        <h2 class="text-xl font-bold text-gray-800">【课文】众说纷纭话名牌</h2>
+                        <button id="tts-play-btn" class="bg-blue-100 hover:bg-blue-200 text-blue-700 px-4 py-2 rounded-full text-sm font-medium transition flex items-center gap-2 w-full sm:w-auto justify-center">
+                            <i class="fas fa-play"></i> 播放录音
+                        </button>
+                    </div>
+                    <div id="reading-text" class="space-y-6 text-lg text-gray-800 chinese-text leading-loose text-justify">
+                        <p class="font-bold text-xl text-center mb-4">◎名牌，对你的吸引力有多大？</p>
+                        <p class="indent-8">随着经济的发展，各种名牌产品离人们的生活越来越近了。那么人们对名牌的看法是怎样的？名牌对消费者有着怎样的吸引力？带着这样的问题，我们走访了部分消费者。</p>
+                        
+                        <p class="font-bold text-gray-700 mt-6 mb-2">李小姐，在一家航空公司工作，月收入四千元，未婚</p>
+                        <p class="indent-8">我买东西主要以名牌为主。我每月都要买《时尚》、《世界时装之苑》等杂志，及时了解时尚的动向。我空闲时逛逛商场，主要是一些品牌店。我这样的知识女性，穿得太俗不好，而名牌服饰确实有着自己与众不同的品位。虽说价钱贵了点，但一分钱一分货，穿在身上感觉衣服是为人服务的，不像有些衣服穿起来好像人变成了衣服架子，完全没有人性化的设计。怎么说呢，对我而言，穿名牌，就是一种享受。当然，我现在完全没有家庭负担，一个人吃饱了全家不饿，所以可以随心所欲地花自己的钱，那我也就乐得潇洒啦。</p>
+                        
+                        <p class="font-bold text-gray-700 mt-6 mb-2">王小姐，研究生，暂无固定收入，未婚</p>
+                        <p class="indent-8">我现在大部分时候还是花家里的钱，一般人觉得应该节俭一点，不应该青睐名牌。可我不这样想。买衣服时，我一定要买一件是一件，要么不买，要么买名牌。开始我的朋友们都看不惯我，说我太奢侈。我的衣服过了四五年有的还在穿，可是我同学们买的大路货、处理品大都不到一年就没法穿了。算算账，我并没比他们多花钱。现在他们也赞同我的观点，宁缺毋滥，经济条件不够的时候买衣服一定要少而精。所以我是名牌的坚决拥护者。</p>
+                        
+                        <p class="font-bold text-gray-700 mt-6 mb-2">刘先生，公务员，月收入两千多元，结婚一年</p>
+                        <p class="indent-8">我呢，虽说收入不算太高，可也赞成买名牌。我倒不是说非得买什么国际顶尖名牌，但是名牌就是比非名牌质量好，特别是一些日用品。我买过一把瑞士军刀，花了将近200块，看起来挺贵，可仔细算，一把刀有五六种功能，如果分开买，也不便宜。再说，人家的刀切肉行，启瓶子行，削个东西硬点也不会卷刃，比一般杂牌货强多了。咱买东西不就图个货真价实吗？干吗买些质量差的东西回来添堵？</p>
+                        
+                        <p class="font-bold text-gray-700 mt-6 mb-2">连女士，五十多岁，退休工人</p>
+                        <p class="indent-8">我这个人，粗粗拉拉的，也没什么文化，生活也不太讲究。在吃穿方面，我是能凑合就凑合，不像我那些孩子们，动不动就是名牌什么的。我那丫头，上个月买回一双皮鞋，2000多，你说吓不吓人，它再好能好到哪儿去？不就是穿在脚上走个路吗？用得着吗？我看这些年轻人就是让钱烧的，没吃过苦，挣一个花俩，不知道节省。可这两年，我觉得这家用电器名牌的质量确实不错，省心，不容易坏，售后服务也好，一个电话，人家就上门给修。原来觉得贵，心疼钱，现在看来也贵不到哪里去，所以我这老太太也时髦时髦，过过名牌瘾，家里买大件时我也全部要名牌的。</p>
+                        
+                        <p class="font-bold text-gray-700 mt-6 mb-2">小杨，17岁，高中生</p>
+                        <p class="indent-8">长得很酷的小杨，一副新新人类的打扮，一身阿迪达斯运动装，一双耐克运动鞋，带着索尼的随身听，嚼着绿箭口香糖。说起名牌，他毫不犹豫地说：“那还用问吗？”“如果你的同学买了名牌，你用的是普通品牌，你会怎么想？”记者问道。“那可太跌份了，对我来说，没面子比死还难受。”“那你觉得现在你没有经济能力，用家里的钱买名牌是不是有些过分？”他翻了翻白眼，有点不满意地说：“他们只有我一个孩子，我不花钱谁花钱？”一副理所当然的样子。</p>
+
+                        <p class="font-bold text-gray-700 mt-6 mb-2">王老师，中学教师，四十多岁</p>
+                        <p class="indent-8">其实我不是老古董，我自己也买名牌。可是，现在有些学生的情况却很让人担忧。他们不管自己家庭条件好坏，盲目攀比。家庭好的学生觉得一身名牌很有派头，很酷；家庭条件不好的学生就打肿了脸充胖子，硬要跟风。长期下去，这些孩子的心理就会受到影响。这点上，家长也一定要重视，但不要张嘴就是“我们那时候多么艰苦朴素”，什么“衣服新三年旧三年缝缝补补又三年”，这些说教太老了，现在家庭条件不好的孩子也没人穿补丁摞补丁的衣服啊；要么就是“我有钱，孩子穿名牌我也体面”。这些想法都不利于孩子的成长。希望家长多为孩子的将来着想，好好引导，让孩子形成正确的消费观。</p>
+
+                        <p class="font-bold text-gray-700 mt-6 mb-2">李先生，眼镜店老板，四十五岁</p>
+                        <p class="indent-8">这些年，人们的品牌意识逐渐树立起来了。以前说名牌，大家注意的是是否时髦，现在大家更加关注的是质量。就拿我的眼镜店来说吧，经过这些年的发展，人们从购买镜片、镜框，到配隐形眼镜都更注重品牌了，因为这些品牌产品容易让消费者放心。实际情况也的确如此，我们售出的名牌眼镜很少遭到投诉，市场反馈满意度很高。作为经营者，我们常觉得，有了名牌产品，不愁没有销路；反之，东西不好，你再搞优惠活动，再降价也吸引不来多少顾客。所以说，这些年，人们的购物观念逐渐成熟了，品牌意识以一种“润物细无声”的方式深入到了更多消费者的心中。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: LUYỆN TẬP -->
+            <div id="tab-practice" class="tab-content hidden animate-fade-in">
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                    <h2 class="text-2xl font-bold mb-2 text-gray-800">【练习】</h2>
+                    <p class="text-sm text-gray-600 mb-8 pb-4 border-b">请使用录音功能回答以下问题。可以参考给出的提示。</p>
+                    
+                    <!-- Luyện tập 1 -->
+                    <div class="mb-10">
+                        <h3 class="text-lg font-bold text-blue-700 mb-4 bg-blue-50 p-2 rounded border-l-4 border-blue-500">【练习一】根据课文内容回答问题</h3>
+                        <div class="space-y-6">
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="chinese-text text-lg font-bold text-gray-900 mb-3">1. 李小姐对名牌是怎么看的？</p>
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                                    <button onclick="toggleRecord('pt1-q1')" id="btn-record-pt1-q1" class="bg-gray-200 hover:bg-red-100 hover:text-red-600 text-gray-700 px-4 py-2 rounded-full text-sm font-medium transition flex items-center gap-2"><i class="fas fa-circle text-xs text-red-500"></i> 开始录音</button>
+                                    <div id="player-container-pt1-q1" class="hidden flex-grow w-full"><audio id="audio-pt1-q1" controls class="w-full h-8"></audio><input type="hidden" id="base64-pt1-q1" class="record-data" data-q="【练习一】1. 李小姐对名牌是怎么看的？"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="chinese-text text-lg font-bold text-gray-900 mb-3">2. 为什么王小姐买衣服一定要买名牌？</p>
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                                    <button onclick="toggleRecord('pt1-q2')" id="btn-record-pt1-q2" class="bg-gray-200 hover:bg-red-100 hover:text-red-600 text-gray-700 px-4 py-2 rounded-full text-sm font-medium transition flex items-center gap-2"><i class="fas fa-circle text-xs text-red-500"></i> 开始录音</button>
+                                    <div id="player-container-pt1-q2" class="hidden flex-grow w-full"><audio id="audio-pt1-q2" controls class="w-full h-8"></audio><input type="hidden" id="base64-pt1-q2" class="record-data" data-q="【练习一】2. 为什么王小姐买衣服一定要买名牌？"></div>
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="chinese-text text-lg font-bold text-gray-900 mb-3">3. 刘先生买瑞士军刀的理由是什么？</p>
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                                    <button onclick="toggleRecord('pt1-q3')" id="btn-record-pt1-q3" class="bg-gray-200 hover:bg-red-100 hover:text-red-600 text-gray-700 px-4 py-2 rounded-full text-sm font-medium transition flex items-center gap-2"><i class="fas fa-circle text-xs text-red-500"></i> 开始录音</button>
+                                    <div id="player-container-pt1-q3" class="hidden flex-grow w-full"><audio id="audio-pt1-q3" controls class="w-full h-8"></audio><input type="hidden" id="base64-pt1-q3" class="record-data" data-q="【练习一】3. 刘先生买瑞士军刀的理由是什么？"></div>
+                                </div>
+                            </div>
+
+                            <!-- Thêm Câu 4 (Bà Liên) -->
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="chinese-text text-lg font-bold text-gray-900 mb-3">4. 连女士对年轻人买名牌和自己买名牌家用电器的态度有什么不同？</p>
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                                    <button onclick="toggleRecord('pt1-q4')" id="btn-record-pt1-q4" class="bg-gray-200 hover:bg-red-100 hover:text-red-600 text-gray-700 px-4 py-2 rounded-full text-sm font-medium transition flex items-center gap-2"><i class="fas fa-circle text-xs text-red-500"></i> 开始录音</button>
+                                    <div id="player-container-pt1-q4" class="hidden flex-grow w-full"><audio id="audio-pt1-q4" controls class="w-full h-8"></audio><input type="hidden" id="base64-pt1-q4" class="record-data" data-q="【练习一】4. 连女士对年轻人买名牌和自己买名牌家用电器的态度有什么不同？"></div>
+                                </div>
+                            </div>
+
+                            <!-- Thêm Câu 5 (Tiểu Dương) -->
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="chinese-text text-lg font-bold text-gray-900 mb-3">5. 小杨没有经济能力，为什么还非要用家里的钱买名牌？</p>
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                                    <button onclick="toggleRecord('pt1-q5')" id="btn-record-pt1-q5" class="bg-gray-200 hover:bg-red-100 hover:text-red-600 text-gray-700 px-4 py-2 rounded-full text-sm font-medium transition flex items-center gap-2"><i class="fas fa-circle text-xs text-red-500"></i> 开始录音</button>
+                                    <div id="player-container-pt1-q5" class="hidden flex-grow w-full"><audio id="audio-pt1-q5" controls class="w-full h-8"></audio><input type="hidden" id="base64-pt1-q5" class="record-data" data-q="【练习一】5. 小杨没有经济能力，为什么还非要用家里的钱买名牌？"></div>
+                                </div>
+                            </div>
+
+                            <!-- Thêm Câu 6 (Thầy Vương) -->
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="chinese-text text-lg font-bold text-gray-900 mb-3">6. 王老师对中学生盲目攀比名牌的现象有什么看法和建议？</p>
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                                    <button onclick="toggleRecord('pt1-q6')" id="btn-record-pt1-q6" class="bg-gray-200 hover:bg-red-100 hover:text-red-600 text-gray-700 px-4 py-2 rounded-full text-sm font-medium transition flex items-center gap-2"><i class="fas fa-circle text-xs text-red-500"></i> 开始录音</button>
+                                    <div id="player-container-pt1-q6" class="hidden flex-grow w-full"><audio id="audio-pt1-q6" controls class="w-full h-8"></audio><input type="hidden" id="base64-pt1-q6" class="record-data" data-q="【练习一】6. 王老师对中学生盲目攀比名牌的现象有什么看法和建议？"></div>
+                                </div>
+                            </div>
+
+                            <!-- Thêm Câu 7 (Ông Lý) -->
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="chinese-text text-lg font-bold text-gray-900 mb-3">7. 根据李先生的观察，现在人们的品牌意识发生了怎样的变化？</p>
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                                    <button onclick="toggleRecord('pt1-q7')" id="btn-record-pt1-q7" class="bg-gray-200 hover:bg-red-100 hover:text-red-600 text-gray-700 px-4 py-2 rounded-full text-sm font-medium transition flex items-center gap-2"><i class="fas fa-circle text-xs text-red-500"></i> 开始录音</button>
+                                    <div id="player-container-pt1-q7" class="hidden flex-grow w-full"><audio id="audio-pt1-q7" controls class="w-full h-8"></audio><input type="hidden" id="base64-pt1-q7" class="record-data" data-q="【练习一】7. 根据李先生的观察，现在人们的品牌意识发生了怎样的变化？"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Luyện tập 2 -->
+                    <div class="mb-10">
+                        <h3 class="text-lg font-bold text-green-700 mb-4 bg-green-50 p-2 rounded border-l-4 border-green-500">【练习二】一、用课文中的词语完成或改写句子</h3>
+                        <div class="space-y-6">
+                            
+                            <!-- PT2-Q1 -->
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="chinese-text text-lg text-gray-900 mb-3">1. 我觉得她穿的这件衣服和别的不一样，很有艺术感觉。</p>
+                                <div class="flex gap-2 mb-4">
+                                    <details class="flex-1 text-sm text-gray-600 bg-white border border-gray-200 p-3 rounded">
+                                        <summary class="cursor-pointer font-medium text-blue-600 select-none">一级提示</summary>
+                                        <p class="mt-2 text-gray-700 chinese-text">与众不同，品位</p>
+                                    </details>
+                                    <details class="flex-1 text-sm text-gray-600 bg-orange-50 border border-orange-200 p-3 rounded">
+                                        <summary class="cursor-pointer font-medium text-orange-600 select-none">二级提示</summary>
+                                        <p class="mt-2 text-gray-700 chinese-text">“和别的不一样” 改成 “与众不同”</p>
+                                        <p class="mt-1 text-gray-700 chinese-text">“很有艺术感觉” 改成 “很有品位”</p>
+                                    </details>
+                                </div>
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                                    <button onclick="toggleRecord('pt2-q1')" id="btn-record-pt2-q1" class="bg-gray-200 hover:bg-red-100 hover:text-red-600 text-gray-700 px-4 py-2 rounded-full text-sm font-medium transition flex items-center gap-2"><i class="fas fa-circle text-xs text-red-500"></i> 开始录音</button>
+                                    <div id="player-container-pt2-q1" class="hidden flex-grow w-full"><audio id="audio-pt2-q1" controls class="w-full h-8"></audio><input type="hidden" id="base64-pt2-q1" class="record-data" data-q="【练习二】1. 我觉得她穿的这件衣服..."></div>
+                                </div>
+                            </div>
+
+                            <!-- PT2-Q2 -->
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="chinese-text text-lg text-gray-900 mb-3">2. 买便宜货售后服务往往不好，太麻烦。为了减少麻烦，我一定要买名牌。</p>
+                                <div class="flex gap-2 mb-4">
+                                    <details class="flex-1 text-sm text-gray-600 bg-white border border-gray-200 p-3 rounded">
+                                        <summary class="cursor-pointer font-medium text-blue-600 select-none">一级提示</summary>
+                                        <p class="mt-2 text-gray-700 chinese-text">省心</p>
+                                    </details>
+                                    <details class="flex-1 text-sm text-gray-600 bg-orange-50 border border-orange-200 p-3 rounded">
+                                        <summary class="cursor-pointer font-medium text-orange-600 select-none">二级提示</summary>
+                                        <p class="mt-2 text-gray-700 chinese-text">省心 —— 比较省心</p>
+                                    </details>
+                                </div>
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                                    <button onclick="toggleRecord('pt2-q2')" id="btn-record-pt2-q2" class="bg-gray-200 hover:bg-red-100 hover:text-red-600 text-gray-700 px-4 py-2 rounded-full text-sm font-medium transition flex items-center gap-2"><i class="fas fa-circle text-xs text-red-500"></i> 开始录音</button>
+                                    <div id="player-container-pt2-q2" class="hidden flex-grow w-full"><audio id="audio-pt2-q2" controls class="w-full h-8"></audio><input type="hidden" id="base64-pt2-q2" class="record-data" data-q="【练习二】2. 买便宜货售后服务往往不好..."></div>
+                                </div>
+                            </div>
+
+                            <!-- PT2-Q3 -->
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="chinese-text text-lg text-gray-900 mb-3">3. 如果暂时没有合适的，我也不想凑合。</p>
+                                <div class="flex gap-2 mb-4">
+                                    <details class="flex-1 text-sm text-gray-600 bg-white border border-gray-200 p-3 rounded">
+                                        <summary class="cursor-pointer font-medium text-blue-600 select-none">一级提示</summary>
+                                        <p class="mt-2 text-gray-700 chinese-text">宁缺毋滥</p>
+                                    </details>
+                                    <details class="flex-1 text-sm text-gray-600 bg-orange-50 border border-orange-200 p-3 rounded">
+                                        <summary class="cursor-pointer font-medium text-orange-600 select-none">二级提示</summary>
+                                        <p class="mt-2 text-gray-700 chinese-text">宁缺毋滥 —— 标准是宁缺毋滥</p>
+                                    </details>
+                                </div>
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                                    <button onclick="toggleRecord('pt2-q3')" id="btn-record-pt2-q3" class="bg-gray-200 hover:bg-red-100 hover:text-red-600 text-gray-700 px-4 py-2 rounded-full text-sm font-medium transition flex items-center gap-2"><i class="fas fa-circle text-xs text-red-500"></i> 开始录音</button>
+                                    <div id="player-container-pt2-q3" class="hidden flex-grow w-full"><audio id="audio-pt2-q3" controls class="w-full h-8"></audio><input type="hidden" id="base64-pt2-q3" class="record-data" data-q="【练习二】3. 如果暂时没有合适的..."></div>
+                                </div>
+                            </div>
+
+                            <!-- PT2-Q4 -->
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="chinese-text text-lg text-gray-900 mb-3">4. 小李一个人买了十种很贵的菜比如海参、鲍鱼等等大吃特吃，你怎么说？</p>
+                                <div class="flex gap-2 mb-4">
+                                    <details class="flex-1 text-sm text-gray-600 bg-white border border-gray-200 p-3 rounded">
+                                        <summary class="cursor-pointer font-medium text-blue-600 select-none">一级提示</summary>
+                                        <p class="mt-2 text-gray-700 chinese-text">奢侈</p>
+                                    </details>
+                                    <details class="flex-1 text-sm text-gray-600 bg-orange-50 border border-orange-200 p-3 rounded">
+                                        <summary class="cursor-pointer font-medium text-orange-600 select-none">二级提示</summary>
+                                        <p class="mt-2 text-gray-700 chinese-text">奢侈 —— 太奢侈了</p>
+                                    </details>
+                                </div>
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                                    <button onclick="toggleRecord('pt2-q4')" id="btn-record-pt2-q4" class="bg-gray-200 hover:bg-red-100 hover:text-red-600 text-gray-700 px-4 py-2 rounded-full text-sm font-medium transition flex items-center gap-2"><i class="fas fa-circle text-xs text-red-500"></i> 开始录音</button>
+                                    <div id="player-container-pt2-q4" class="hidden flex-grow w-full"><audio id="audio-pt2-q4" controls class="w-full h-8"></audio><input type="hidden" id="base64-pt2-q4" class="record-data" data-q="【练习二】4. 小李一个人买了十种很贵的菜..."></div>
+                                </div>
+                            </div>
+                            
+                            <!-- PT2-Q5 -->
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="chinese-text text-lg text-gray-900 mb-3">5. 有些年轻人流行什么就非要买什么，好像不这样会没面子似的。</p>
+                                <div class="flex gap-2 mb-4">
+                                    <details class="flex-1 text-sm text-gray-600 bg-white border border-gray-200 p-3 rounded">
+                                        <summary class="cursor-pointer font-medium text-blue-600 select-none">一级提示</summary>
+                                        <p class="mt-2 text-gray-700 chinese-text">跟风，跌份</p>
+                                    </details>
+                                    <details class="flex-1 text-sm text-gray-600 bg-orange-50 border border-orange-200 p-3 rounded">
+                                        <summary class="cursor-pointer font-medium text-orange-600 select-none">二级提示</summary>
+                                        <p class="mt-2 text-gray-700 chinese-text">“流行什么就非要买什么” 改成 “跟风”</p>
+                                        <p class="mt-1 text-gray-700 chinese-text">“没面子” 改成 “跌份”</p>
+                                    </details>
+                                </div>
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                                    <button onclick="toggleRecord('pt2-q5')" id="btn-record-pt2-q5" class="bg-gray-200 hover:bg-red-100 hover:text-red-600 text-gray-700 px-4 py-2 rounded-full text-sm font-medium transition flex items-center gap-2"><i class="fas fa-circle text-xs text-red-500"></i> 开始录音</button>
+                                    <div id="player-container-pt2-q5" class="hidden flex-grow w-full"><audio id="audio-pt2-q5" controls class="w-full h-8"></audio><input type="hidden" id="base64-pt2-q5" class="record-data" data-q="【练习二】5. 有些年轻人流行什么就非要买什么..."></div>
+                                </div>
+                            </div>
+
+                            <!-- PT2-Q6 -->
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="chinese-text text-lg text-gray-900 mb-3">6. 你家经济条件不好，就在一个普通酒店举行婚礼吧，干吗非得去豪华大酒店呢？</p>
+                                <div class="flex gap-2 mb-4">
+                                    <details class="flex-1 text-sm text-gray-600 bg-white border border-gray-200 p-3 rounded">
+                                        <summary class="cursor-pointer font-medium text-blue-600 select-none">一级提示</summary>
+                                        <p class="mt-2 text-gray-700 chinese-text">打肿脸充胖子</p>
+                                    </details>
+                                    <details class="flex-1 text-sm text-gray-600 bg-orange-50 border border-orange-200 p-3 rounded">
+                                        <summary class="cursor-pointer font-medium text-orange-600 select-none">二级提示</summary>
+                                        <p class="mt-2 text-gray-700 chinese-text">“去豪华大酒店” 改成 “打肿脸充胖子”</p>
+                                    </details>
+                                </div>
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                                    <button onclick="toggleRecord('pt2-q6')" id="btn-record-pt2-q6" class="bg-gray-200 hover:bg-red-100 hover:text-red-600 text-gray-700 px-4 py-2 rounded-full text-sm font-medium transition flex items-center gap-2"><i class="fas fa-circle text-xs text-red-500"></i> 开始录音</button>
+                                    <div id="player-container-pt2-q6" class="hidden flex-grow w-full"><audio id="audio-pt2-q6" controls class="w-full h-8"></audio><input type="hidden" id="base64-pt2-q6" class="record-data" data-q="【练习二】6. 你家经济条件不好..."></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Luyện tập 3 -->
+                    <div>
+                        <h3 class="text-lg font-bold text-purple-700 mb-4 bg-purple-50 p-2 rounded border-l-4 border-purple-500">【练习三】二、用课文中的句型表达</h3>
+                        <div class="space-y-6">
+                            
+                            <!-- PT3-Q1 -->
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="chinese-text text-lg font-bold text-gray-900 mb-2">1. 一分钱一分货</p>
+                                <p class="chinese-text text-gray-700 mb-1">(1) 当顾客觉得东西价格有些贵时，售货员怎么劝顾客？</p>
+                                <p class="chinese-text text-gray-700 mb-3">(2) 你坚持花较多的钱买台名牌电脑，你怎么说服父母？</p>
+                                <div class="flex gap-2 mb-4">
+                                    <details class="flex-1 text-sm text-gray-600 bg-white border border-gray-200 p-3 rounded">
+                                        <summary class="cursor-pointer font-medium text-blue-600 select-none">一级提示</summary>
+                                        <p class="mt-2 text-gray-700 chinese-text">使用句型：一分钱一分货</p>
+                                    </details>
+                                </div>
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                                    <button onclick="toggleRecord('pt3-q1')" id="btn-record-pt3-q1" class="bg-gray-200 hover:bg-red-100 hover:text-red-600 text-gray-700 px-4 py-2 rounded-full text-sm font-medium transition flex items-center gap-2"><i class="fas fa-circle text-xs text-red-500"></i> 开始录音</button>
+                                    <div id="player-container-pt3-q1" class="hidden flex-grow w-full"><audio id="audio-pt3-q1" controls class="w-full h-8"></audio><input type="hidden" id="base64-pt3-q1" class="record-data" data-q="【练习三】1. 一分钱一分货"></div>
+                                </div>
+                            </div>
+
+                            <!-- PT3-Q2 -->
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="chinese-text text-lg font-bold text-gray-900 mb-2">2. 买（动词）一件（量词）是一件（量词）</p>
+                                <p class="chinese-text text-gray-700 mb-1">(1) 每次排练的时候你都应该认真，争取每次排练都有效果。</p>
+                                <p class="chinese-text text-gray-700 mb-3">(2) 你写文章的时候要注意文章的质量，不要贪多。</p>
+                                <div class="flex gap-2 mb-4">
+                                    <details class="flex-1 text-sm text-gray-600 bg-white border border-gray-200 p-3 rounded">
+                                        <summary class="cursor-pointer font-medium text-blue-600 select-none">一级提示</summary>
+                                        <p class="mt-2 text-gray-700 chinese-text">句型：V + 一 + M + 是 + 一 + M</p>
+                                    </details>
+                                </div>
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                                    <button onclick="toggleRecord('pt3-q2')" id="btn-record-pt3-q2" class="bg-gray-200 hover:bg-red-100 hover:text-red-600 text-gray-700 px-4 py-2 rounded-full text-sm font-medium transition flex items-center gap-2"><i class="fas fa-circle text-xs text-red-500"></i> 开始录音</button>
+                                    <div id="player-container-pt3-q2" class="hidden flex-grow w-full"><audio id="audio-pt3-q2" controls class="w-full h-8"></audio><input type="hidden" id="base64-pt3-q2" class="record-data" data-q="【练习三】2. 买一件是一件"></div>
+                                </div>
+                            </div>
+
+                            <!-- PT3-Q3 -->
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="chinese-text text-lg font-bold text-gray-900 mb-2">3. 能凑合（动词短语）就凑合（动词短语）</p>
+                                <p class="chinese-text text-gray-700 mb-1">(1) 工作的时候能偷懒的话他总是偷懒。</p>
+                                <p class="chinese-text text-gray-700 mb-3">(2) 这样的秘密尽量不要说。</p>
+                                <div class="flex gap-2 mb-4">
+                                    <details class="flex-1 text-sm text-gray-600 bg-white border border-gray-200 p-3 rounded">
+                                        <summary class="cursor-pointer font-medium text-blue-600 select-none">一级提示</summary>
+                                        <p class="mt-2 text-gray-700 chinese-text">句型：能...就...</p>
+                                    </details>
+                                </div>
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                                    <button onclick="toggleRecord('pt3-q3')" id="btn-record-pt3-q3" class="bg-gray-200 hover:bg-red-100 hover:text-red-600 text-gray-700 px-4 py-2 rounded-full text-sm font-medium transition flex items-center gap-2"><i class="fas fa-circle text-xs text-red-500"></i> 开始录音</button>
+                                    <div id="player-container-pt3-q3" class="hidden flex-grow w-full"><audio id="audio-pt3-q3" controls class="w-full h-8"></audio><input type="hidden" id="base64-pt3-q3" class="record-data" data-q="【练习三】3. 能凑合就凑合"></div>
+                                </div>
+                            </div>
+
+                            <!-- PT3-Q4 -->
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="chinese-text text-lg font-bold text-gray-900 mb-2">4. 再好能好到哪儿去？（再好也好不到哪儿去）</p>
+                                <p class="chinese-text text-gray-700 mb-1">(1) 你别羡慕别人的东西，虽然很好但也不会太好。</p>
+                                <p class="chinese-text text-gray-700 mb-3">(2) 不会吧？怎么会那么贵？我觉得不可能有那么贵的东西。</p>
+                                <div class="flex gap-2 mb-4">
+                                    <details class="flex-1 text-sm text-gray-600 bg-white border border-gray-200 p-3 rounded">
+                                        <summary class="cursor-pointer font-medium text-blue-600 select-none">一级提示</summary>
+                                        <p class="mt-2 text-gray-700 chinese-text">句型：再Adj能Adj到哪儿去？</p>
+                                    </details>
+                                </div>
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                                    <button onclick="toggleRecord('pt3-q4')" id="btn-record-pt3-q4" class="bg-gray-200 hover:bg-red-100 hover:text-red-600 text-gray-700 px-4 py-2 rounded-full text-sm font-medium transition flex items-center gap-2"><i class="fas fa-circle text-xs text-red-500"></i> 开始录音</button>
+                                    <div id="player-container-pt3-q4" class="hidden flex-grow w-full"><audio id="audio-pt3-q4" controls class="w-full h-8"></audio><input type="hidden" id="base64-pt3-q4" class="record-data" data-q="【练习三】4. 再好能好到哪儿去？"></div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: CHỦ ĐỀ BÀI NÓI (FINAL TASK) -->
+            <div id="tab-final" class="tab-content hidden animate-fade-in">
+                
+                <!-- The Topic -->
+                <div class="bg-blue-600 text-white rounded-xl shadow-md p-6 text-center mb-6 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 opacity-10 text-9xl transform translate-x-4 -translate-y-8"><i class="fas fa-quote-right"></i></div>
+                    <h2 class="text-sm font-semibold uppercase tracking-wider mb-2 text-blue-200">思考与调查</h2>
+                    <p class="text-3xl chinese-text font-bold mb-2">你买什么东西的时候倾向于买名牌？为什么？</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Left: Guidelines -->
+                    <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                        <h3 class="text-lg font-bold mb-4 flex items-center gap-2 text-purple-700 border-b pb-2">
+                            <i class="fas fa-comments"></i> 表达指南
+                        </h3>
+                        <p class="text-sm text-gray-600 mb-4">使用 <strong>议论性表达</strong> 并结合 <strong>叙述为辅</strong>：</p>
+                        
+                        <div class="space-y-4">
+                            <!-- Step 1 -->
+                            <div class="flex gap-3">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex justify-center items-center font-bold">1</div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">提出观点</h4>
+                                    <p class="text-sm text-gray-600 mb-1">用一个主题句提出自己的看法。</p>
+                                    <div class="bg-gray-50 p-2 rounded text-sm chinese-text text-gray-700 border-l-2 border-purple-300">
+                                        <span class="text-purple-600 font-bold">我觉得/认为</span>在买电子产品的时候，买名牌是一个比较好的选择。
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 2 -->
+                            <div class="flex gap-3">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex justify-center items-center font-bold">2</div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">阐述观点</h4>
+                                    <p class="text-sm text-gray-600 mb-1">从几个角度阐述观点。使用连贯词：<em>首先、其次... </em> 或 <em>从...角度来看</em>。</p>
+                                    <div class="bg-gray-50 p-2 rounded text-sm chinese-text text-gray-700 border-l-2 border-purple-300 space-y-1">
+                                        <p><span class="text-purple-600 font-bold">首先</span>，名牌的质量更有保证，正所谓一分钱一分货。</p>
+                                        <p><span class="text-purple-600 font-bold">其次</span>，<span class="text-purple-600 font-bold">从</span>售后的<span class="text-purple-600 font-bold">角度来看</span>，名牌让人更省心。</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 3 (Narrative Supplementary) -->
+                            <div class="flex gap-3">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex justify-center items-center font-bold">3</div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">举例说明</h4>
+                                    <p class="text-sm text-gray-600 mb-1">叙述亲身经历来证明你的论点。</p>
+                                    <div class="bg-gray-50 p-2 rounded text-sm chinese-text text-gray-700 border-l-2 border-purple-300">
+                                        <span class="text-purple-600 font-bold">记得有一次</span>我买了一件便宜的杂牌衣服，洗了一次就坏了，真是给我添堵。相反，我那件名牌外套穿了三年还像新的一样。
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 4 -->
+                            <div class="flex gap-3">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex justify-center items-center font-bold">4</div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">归纳总结</h4>
+                                    <p class="text-sm text-gray-600 mb-1">用一个总结句结束该话题。 (<em>总之、总而言之...</em>)</p>
+                                    <div class="bg-gray-50 p-2 rounded text-sm chinese-text text-gray-700 border-l-2 border-purple-300">
+                                        <span class="text-purple-600 font-bold">总之</span>，为了质量和服务，多花一点钱买名牌还是值得的，不会让人觉得跌份。
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Execution -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Draft Area -->
+                        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 flex-grow">
+                            <h3 class="text-lg font-bold mb-3 flex items-center gap-2 text-green-600">
+                                <i class="fas fa-pen-to-square"></i> 准备提纲
+                            </h3>
+                            <textarea id="final-outline" rows="8" class="w-full border border-gray-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-green-500 focus:border-transparent chinese-text" placeholder="请在此处输入您的提纲...
+VD: 
+1. 观点: 倾向于买名牌数码产品。
+2. 阐述: 
+   - 质量好 (一分钱一分货)。
+   - 售后服务好 (省心)。
+3. 举例 (叙述): 记得有一次买了一台杂牌手机，没用几个月就坏了，修起来很麻烦。
+4. 总结: 总之，贵一点也值得 (货真价实)"></textarea>
+                        </div>
+
+                        <!-- Final Record Area -->
+                        <div class="bg-green-50 rounded-xl shadow-sm p-6 border border-green-200 text-center">
+                            <h3 class="text-lg font-bold mb-2 text-green-800">录音</h3>
+                            <p class="text-sm text-green-700 mb-4">Nhìn dàn ý, hít thở sâu và trình bày quan điểm thật tự tin nhé!</p>
+                            
+                            <div class="flex justify-center mb-4">
+                                <button onclick="toggleRecord('final')" id="btn-record-final" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-full text-lg font-bold transition flex items-center gap-2 shadow-md">
+                                    <i class="fas fa-microphone"></i> Bắt đầu thu âm
+                                </button>
+                            </div>
+
+                            <div id="player-container-final" class="hidden w-full bg-white p-3 rounded-lg border border-green-100">
+                                <audio id="audio-final" controls class="w-full"></audio>
+                                <input type="hidden" id="base64-final" class="record-data" data-q="你买什么东西的时候倾向于买名牌？为什么？ (Bài nói cuối)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // --- Tab Management ---
+        function switchTab(tabId) {
+            // Hide all contents
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.add('hidden');
+                el.classList.remove('block');
+            });
+            // Show selected content
+            const selectedContent = document.getElementById(tabId);
+            selectedContent.classList.remove('hidden');
+            selectedContent.classList.add('block');
+
+            // Reset tab button styles
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('tab-active');
+                el.classList.add('tab-inactive');
+            });
+            // Set active style
+            const activeBtn = document.getElementById('btn-' + tabId);
+            activeBtn.classList.remove('tab-inactive');
+            activeBtn.classList.add('tab-active');
+        }
+
+        // --- Text-to-Speech (Mocking Audio AI) ---
+        const ttsBtn = document.getElementById('tts-play-btn');
+        const readingTextEl = document.getElementById('reading-text');
+        
+        if (ttsBtn) {
+            ttsBtn.addEventListener('click', () => {
+                if ('speechSynthesis' in window) {
+                    // Get text content, remove visual elements text
+                    let textToRead = readingTextEl.innerText;
+                    textToRead = textToRead.replace(/名牌，对你的吸引力有多大？/g, ''); // Skip title
+                    textToRead = textToRead.replace(/李小姐，在一家航空公司工作，月收入四千元，未婚/g, ''); // Skip bio
+                    
+                    const utterance = new SpeechSynthesisUtterance(textToRead);
+                    utterance.lang = 'zh-CN'; // Chinese
+                    utterance.rate = 0.9; // Slightly slower for shadowing
+                    
+                    window.speechSynthesis.cancel(); // Stop any ongoing speech
+                    window.speechSynthesis.speak(utterance);
+                    
+                    ttsBtn.innerHTML = '<i class="fas fa-volume-up"></i> Đang đọc...';
+                    utterance.onend = () => {
+                        ttsBtn.innerHTML = '<i class="fas fa-play"></i> Nghe Audio AI';
+                    };
+                } else {
+                    alert("Trình duyệt của bạn không hỗ trợ đọc văn bản AI.");
+                }
+            });
+        }
+
+        // --- Recording Logic Management ---
+        let activeRecorder = null;
+        let activeChunks = [];
+        // Map to keep track of state for different recording sections
+        const recordStates = {
+            'shadowing': { isRecording: false, btn: 'btn-record-shadowing', player: 'audio-shadowing', container: 'player-container-shadowing', b64: 'base64-shadowing' },
+            'final': { isRecording: false, btn: 'btn-record-final', player: 'audio-final', container: 'player-container-final', b64: 'base64-final' }
+        };
+
+        async function toggleRecord(id) {
+            // Tự động tạo state cho các nút ghi âm mới nếu chưa có trong recordStates
+            if (!recordStates[id]) {
+                recordStates[id] = {
+                    isRecording: false,
+                    btn: 'btn-record-' + id,
+                    player: 'audio-' + id,
+                    container: 'player-container-' + id,
+                    b64: 'base64-' + id
+                };
+            }
+
+            const state = recordStates[id];
+            const btn = document.getElementById(state.btn);
+            
+            if (!state.isRecording) {
+                // START RECORDING
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    activeRecorder = new MediaRecorder(stream);
+                    activeChunks = [];
+
+                    activeRecorder.ondataavailable = e => {
+                        if (e.data.size > 0) activeChunks.push(e.data);
+                    };
+
+                    activeRecorder.onstop = () => {
+                        const blob = new Blob(activeChunks, { type: 'audio/webm' });
+                        const audioUrl = URL.createObjectURL(blob);
+                        
+                        // Update UI Player
+                        document.getElementById(state.container).classList.remove('hidden');
+                        document.getElementById(state.player).src = audioUrl;
+                        
+                        // Convert to Base64 for Export
+                        const reader = new FileReader();
+                        reader.readAsDataURL(blob);
+                        reader.onloadend = () => {
+                            document.getElementById(state.b64).value = reader.result;
+                        };
+                        
+                        // Stop all tracks to free mic
+                        stream.getTracks().forEach(track => track.stop());
+                    };
+
+                    activeRecorder.start();
+                    state.isRecording = true;
+                    
+                    // Update Button UI
+                    if(id === 'shadowing' || id === 'final') {
+                         btn.classList.add('animate-pulse', 'bg-red-700');
+                         btn.innerHTML = '<i class="fas fa-stop"></i> 停止录音';
+                    } else {
+                         btn.classList.replace('bg-gray-200', 'bg-red-500');
+                         btn.classList.replace('text-gray-700', 'text-white');
+                         btn.innerHTML = '<i class="fas fa-stop"></i> 录音中...'; 
+                    }
+
+                } catch (err) {
+                    console.error("Mic error:", err);
+                    if(err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+                        alert("Không thể truy cập Microphone. Vui lòng cấp quyền sử dụng mic cho trang web này trong cài đặt trình duyệt.");
+                    } else if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost') {
+                        alert("LỖI BẢO MẬT ĐIỆN THOẠI:\n\nTrình duyệt di động (Safari/Chrome) chỉ cho phép ghi âm khi trang web dùng HTTPS. Trang web hiện tại không bảo mật nên bị chặn Micro.\n\nGiải pháp: Hãy upload file này lên Netlify, GitHub Pages hoặc Vercel để lấy link HTTPS nhé!");
+                    } else {
+                        alert("Lỗi Micro: " + err.message + "\nTrình duyệt của bạn có thể không hỗ trợ tính năng này.");
+                    }
+                }
+            } else {
+                // STOP RECORDING
+                if (activeRecorder && activeRecorder.state !== 'inactive') {
+                    activeRecorder.stop();
+                }
+                state.isRecording = false;
+                
+                // Revert Button UI
+                if(id === 'shadowing') {
+                     btn.classList.remove('animate-pulse', 'bg-red-700');
+                     btn.innerHTML = '<i class="fas fa-microphone text-xl"></i>';
+                } else if(id === 'final') {
+                     btn.classList.remove('animate-pulse', 'bg-red-700');
+                     btn.innerHTML = '<i class="fas fa-rotate-right"></i> Thu âm lại';
+                } else {
+                     btn.classList.replace('bg-red-500', 'bg-gray-200');
+                     btn.classList.replace('text-white', 'text-gray-700');
+                     btn.innerHTML = '<i class="fas fa-rotate-right text-xs"></i> 重新录音'; // Ghi âm lại bằng tiếng Trung
+                }
+            }
+        }
+
+        // --- Export to HTML File Logic ---
+        document.getElementById('export-btn').addEventListener('click', () => {
+            const studentName = document.getElementById('student-name').value.trim() || 'SinhVien_KhuyetDanh';
+            const dateStr = new Date().toLocaleString('vi-VN');
+            const outlineText = document.getElementById('final-outline').value;
+            
+            // Gather all recordings
+            const recordings = [];
+            document.querySelectorAll('.record-data').forEach(input => {
+                if(input.value) { // Only if there is base64 data
+                    const questionText = input.getAttribute('data-q') || 'Luyện tập (Shadowing)';
+                    recordings.push({ q: questionText, audioData: input.value });
+                }
+            });
+
+            if(recordings.length === 0 && !outlineText) {
+                alert("Bạn chưa ghi âm hay viết dàn ý nào để nộp!");
+                return;
+            }
+
+            // Generate HTML string for the teacher
+            let htmlContent = `
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Bài Tập Khẩu Ngữ - ${studentName}</title>
+    <style>
+        body { font-family: sans-serif; max-width: 800px; margin: 40px auto; line-height: 1.6; color: #333; }
+        .header { background: #f3f4f6; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
+        .section { margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #eee; }
+        audio { margin-top: 10px; width: 100%; max-width: 400px; }
+        .outline { background: #fdfde7; padding: 15px; border-left: 4px solid #fde047; white-space: pre-wrap; font-family: 'SimSun', serif; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>Phiếu Nộp Bài: Khẩu Ngữ Cao Cấp (Bài 10)</h2>
+        <p><strong>Họ và tên:</strong> ${studentName}</p>
+        <p><strong>Thời gian nộp:</strong> ${dateStr}</p>
+    </div>
+            `;
+
+            if(outlineText) {
+                htmlContent += `
+    <div class="section">
+        <h3>Dàn ý bài nói cuối kỳ:</h3>
+        <div class="outline">${outlineText.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</div>
+    </div>`;
+            }
+
+            recordings.forEach((rec, index) => {
+                htmlContent += `
+    <div class="section">
+        <h3>${index + 1}. ${rec.q}</h3>
+        <audio controls src="${rec.audioData}"></audio>
+    </div>`;
+            });
+
+            htmlContent += `</body></html>`;
+
+            // Create Download Link
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `KhauNgu_Bai10_${studentName.replace(/\s+/g, '_')}.html`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+    </script>
+</body>
+</html>
